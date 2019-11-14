@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MVICore21</string>
+    <string name="counter_sample_title">Counter Sample</string>
+    <string name="add">Add</string>
+    <string name="subtract">Subtract</string>
+    <string name="empty_counter">Empty counter</string>
 </resources>
