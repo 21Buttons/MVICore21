@@ -1,0 +1,53 @@
+version: 2
+
+config_android_medium: &config_android_medium
+  docker:
+    - image: circleci/android:api-28
+  environment:
+    GRADLE_OPTS: '
+    -Dorg.gradle.jvmargs="-Xmx2g -XX:+HeapDumpOnOutOfMemoryError -XX:MaxPermSize=512m"
+    -Dorg.gradle.daemon=false
+    -Dorg.gradle.workers.max=2
+    -Dkotlin.incremental=false'
+  resource_class: medium
+
+general_cache_key: &general_cache_key
+  key: circleciimage-{{ checksum "build.gradle" }}
+
+jobs:
+
+  Test:
+    <<: *config_android_medium
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *general_cache_key
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}
+      - run:
+          name: Run static analysis
+          command: ./gradlew ktlintCheck detekt
+      - run:
+          name: Unit tests
+          command: ./gradlew :mvicore21:test :sample:testDebug :sample:compileDebugAndroidTestSources
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+
+workflows:
+  version: 2
+  Regular Pipeline:
+    jobs:
+      - Test
