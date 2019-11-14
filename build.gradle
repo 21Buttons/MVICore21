@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.0.1'
     }
 }
 
@@ -17,6 +18,17 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    detekt {
+        config = files("$rootDir/detekt-config.yml")
+        baseline = file("$projectDir/baseline.xml")
+        input = files(
+                "src/main/java",
+                "src/test/java",
+                "src/androidTest/java",
+                "src/debug/java",
+        )
     }
 }
 
