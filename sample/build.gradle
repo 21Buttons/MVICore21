@@ -38,6 +38,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.1.0"
     implementation "io.reactivex.rxjava2:rxjava:2.2.12"
     implementation "com.jakewharton.rxbinding3:rxbinding-core:3.0.0"
+    implementation "com.jakewharton.rxrelay2:rxrelay:2.1.1"
 
     testImplementation 'junit:junit:4.12'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
