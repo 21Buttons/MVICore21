@@ -40,6 +40,7 @@ dependencies {
     implementation "com.jakewharton.rxbinding3:rxbinding-core:3.0.0"
 
     testImplementation 'junit:junit:4.12'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
