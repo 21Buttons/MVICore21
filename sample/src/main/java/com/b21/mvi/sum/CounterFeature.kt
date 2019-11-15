@@ -3,7 +3,7 @@ package com.b21.mvi.sum
 import com.b21.mvicore21.BaseFeature
 import io.reactivex.Scheduler
 
-class CounterFeature(
+open class CounterFeature(
     bootstrapperAction: CounterAction? = null,
     main: Scheduler
 ) : BaseFeature<CounterState, CounterWish, Nothing, CounterEffect, CounterAction>(
