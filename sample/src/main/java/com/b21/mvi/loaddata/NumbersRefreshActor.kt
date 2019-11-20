@@ -8,7 +8,7 @@ class NumbersRefreshActor(
     private val useCase: NumbersUseCase,
     private val main: Scheduler
 ) : Actor<NumbersAction, NumbersEffect> {
-    override fun invoke(action: NumbersAction): Flowable<NumbersEffect> {
+    override fun invoke(action: NumbersAction): Flowable<out NumbersEffect> {
         return when (action) {
             NumbersAction.Load -> {
                 useCase.getNumbers()
@@ -21,6 +21,7 @@ class NumbersRefreshActor(
                     }
                     .startWith(NumbersEffect.Loading)
             }
+            is NumbersAction.SelectedItem -> Flowable.just(NumbersEffect.Empty)
         }
             .observeOn(main)
     }

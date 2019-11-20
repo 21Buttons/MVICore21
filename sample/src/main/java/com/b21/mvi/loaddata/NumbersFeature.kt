@@ -6,15 +6,17 @@ import io.reactivex.Scheduler
 open class NumbersFeature(
     useCase: NumbersUseCase,
     main: Scheduler
-) : BaseFeature<NumbersState, NumbersWish, Nothing, (NumbersState) -> NumbersState, NumbersAction>(
+) : BaseFeature<NumbersState, NumbersWish, NumbersNews, NumbersEffect, NumbersAction>(
     initialState = NumbersState.Loading,
     actor = NumbersRefreshActor(useCase, main),
     bootstrapperAction = NumbersAction.Load,
     wishToAction = { wish, _ ->
         when (wish) {
             NumbersWish.Refresh -> NumbersAction.Load
+            is NumbersWish.SelectedItem -> NumbersAction.SelectedItem(wish.item)
         }
-    }
+    },
+    newsPublisher = NumbersNewsPublisher()
 )
 
 sealed class NumbersEffect : (NumbersState) -> NumbersState {
@@ -35,13 +37,19 @@ sealed class NumbersEffect : (NumbersState) -> NumbersState {
             return NumbersState.Error
         }
     }
+
+    object Empty : NumbersEffect() {
+        override fun invoke(state: NumbersState) = state
+    }
 }
 
 sealed class NumbersWish {
+    data class SelectedItem(val item: String) : NumbersWish()
     object Refresh : NumbersWish()
 }
 
 sealed class NumbersAction {
+    data class SelectedItem(val item: String) : NumbersAction()
     object Load : NumbersAction()
 }
 
@@ -49,4 +57,8 @@ sealed class NumbersState {
     data class Data(val data: List<Long>) : NumbersState()
     object Loading : NumbersState()
     object Error : NumbersState()
+}
+
+sealed class NumbersNews {
+    data class SelectedItem(val item: String) : NumbersNews()
 }

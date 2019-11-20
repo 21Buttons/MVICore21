@@ -66,4 +66,16 @@ class NumbersFeatureTest {
             )
         verify(useCase).getNumbers()
     }
+
+    @Test
+    fun testSelectItem() {
+        feature.test()
+        val testNewsSubscriber = feature.news.test()
+
+        feature.accept(NumbersWish.SelectedItem("2"))
+
+        testNewsSubscriber
+            .assertValue(NumbersNews.SelectedItem("2"))
+        verify(useCase).getNumbers()
+    }
 }
