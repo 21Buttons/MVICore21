@@ -8,6 +8,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
+import io.reactivex.BackpressureStrategy
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -18,7 +19,10 @@ class NumbersPresenterTest {
     private val view: NumbersView = mock {
         on { userIntents } doReturn userIntentsRelay
     }
-    private val feature: NumbersFeature = mock()
+    private val news: Relay<NumbersNews> = PublishRelay.create()
+    private val feature: NumbersFeature = mock {
+        on { news } doReturn news.toFlowable(BackpressureStrategy.LATEST)
+    }
     private val owner: LifecycleOwner = mock()
     private lateinit var stateStream: Subscriber<NumbersState>
 
@@ -39,6 +43,7 @@ class NumbersPresenterTest {
         }
 
         verify(view).userIntents
+        verify(feature).news
     }
 
     @Test
@@ -53,5 +58,12 @@ class NumbersPresenterTest {
         stateStream.onNext(NumbersState.Data(listOf(1L)))
 
         verify(view).render(NumbersState.Data(listOf(1L)))
+    }
+
+    @Test
+    fun testNews() {
+        news.accept(NumbersNews.SelectedItem("1"))
+
+        verify(view).showSelectedItem("1")
     }
 }

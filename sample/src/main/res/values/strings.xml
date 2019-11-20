@@ -4,4 +4,7 @@
     <string name="add">Add</string>
     <string name="subtract">Subtract</string>
     <string name="empty_counter">Empty counter</string>
+    <string name="numbers_sample">Numbers sample</string>
+    <string name="error_numbers">There was an error. Tap to refresh</string>
+    <string name="refresh">Force refresh</string>
 </resources>

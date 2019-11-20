@@ -20,11 +20,24 @@ class NumbersPresenter(
                     { throw RuntimeException() })
         )
 
+        disposable.add(
+            feature.news
+                .subscribe(
+                    { news ->
+                        when (news) {
+                            is NumbersNews.SelectedItem -> view.showSelectedItem(news.item)
+                        }
+                    },
+                    { throw RuntimeException(it) },
+                    { throw RuntimeException() })
+        )
+
         disposable.add(view.userIntents
             .subscribe(
                 {
                     when (it) {
                         UserIntent.Refresh -> feature.accept(NumbersWish.Refresh)
+                        is UserIntent.SelectedItem -> feature.accept(NumbersWish.SelectedItem(it.item))
                     }
                 },
                 { throw RuntimeException(it) }
