@@ -5,7 +5,7 @@ import org.junit.Test
 
 class BaseFeatureTest {
 
-    private val feature = BaseFeature<TestState, TestWish, TestNews, TestEffect, TestAction>(
+    private val feature = BaseFeature(
         initialState = TestState.Counter(0),
         bootstrapperAction = TestAction.Increment,
         actor = TestActor(),
@@ -29,7 +29,7 @@ class BaseFeatureTest {
 
     @Test
     fun testInitialStateNoBootstrap() {
-        val featureNoBootstrap = BaseFeature<TestState, TestWish, TestNews, TestEffect, TestAction>(
+        val featureNoBootstrap = BaseFeature(
             initialState = TestState.Counter(15),
             bootstrapperAction = null,
             actor = TestActor(),
