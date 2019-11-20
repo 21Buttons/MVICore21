@@ -8,7 +8,7 @@ open class NumbersFeature(
     main: Scheduler
 ) : BaseFeature<NumbersState, NumbersWish, NumbersNews, NumbersEffect, NumbersAction>(
     initialState = NumbersState.Loading,
-    actor = NumbersRefreshActor(useCase, main),
+    actor = NumbersActor(useCase, main),
     bootstrapperAction = NumbersAction.Load,
     wishToAction = { wish, _ ->
         when (wish) {

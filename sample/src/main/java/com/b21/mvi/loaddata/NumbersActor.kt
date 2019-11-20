@@ -4,11 +4,11 @@ import com.b21.mvicore21.Actor
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
 
-class NumbersRefreshActor(
+class NumbersActor(
     private val useCase: NumbersUseCase,
     private val main: Scheduler
 ) : Actor<NumbersAction, NumbersEffect> {
-    override fun invoke(action: NumbersAction): Flowable<out NumbersEffect> {
+    override fun invoke(action: NumbersAction): Flowable<NumbersEffect> {
         return when (action) {
             NumbersAction.Load -> {
                 useCase.getNumbers()
@@ -21,7 +21,7 @@ class NumbersRefreshActor(
                     }
                     .startWith(NumbersEffect.Loading)
             }
-            is NumbersAction.SelectedItem -> Flowable.just(NumbersEffect.Empty)
+            is NumbersAction.SelectedItem -> Flowable.just<NumbersEffect>(NumbersEffect.Empty)
         }
             .observeOn(main)
     }
