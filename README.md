@@ -13,7 +13,7 @@ to have a better insight on the usage of this framework.
 ## Download
 
 ```gradle
-implementation 'com.21buttons:mvicore21:0.1.0'
+implementation 'com.21buttons:mvicore21:1.0.0'
 ```
 
 ## Main differences with MVICore
