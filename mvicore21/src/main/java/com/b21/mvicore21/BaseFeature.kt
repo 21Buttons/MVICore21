@@ -1,9 +1,9 @@
 package com.b21.mvicore21
 
-import com.jakewharton.rxrelay2.PublishRelay
-import com.jakewharton.rxrelay2.Relay
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import org.reactivestreams.Subscriber
 
 typealias WishToAction<Wish, State, Action> = (Wish, State) -> Action?
@@ -20,9 +20,9 @@ open class BaseFeature<State : Any, Wish : Any, News : Any, Effect : (State) -> 
     private val newsPublisher: NewsPublisher<Action, Effect, State, News> = { _, _, _ -> null }
 ) : Feature<State, Wish, News>() {
 
-    private val actions: Relay<Action> = PublishRelay.create()
-    private val newsRelay: Relay<News> = PublishRelay.create()
-    private val injectStateRelay: Relay<State> = PublishRelay.create()
+    private val actions: Subject<Action> = PublishSubject.create()
+    private val newsRelay: Subject<News> = PublishSubject.create()
+    private val injectStateRelay: Subject<State> = PublishSubject.create()
 
     private val states: Flowable<State> = actions.toFlowable(BackpressureStrategy.BUFFER)
         .executeBootstrapper(bootstrapperAction)
@@ -40,7 +40,7 @@ open class BaseFeature<State : Any, Wish : Any, News : Any, Effect : (State) -> 
     override var state: State
         get() = _state
         set(value) {
-            injectStateRelay.accept(value)
+            injectStateRelay.onNext(value)
         }
 
     override val news: Flowable<News> = newsRelay
@@ -54,7 +54,7 @@ open class BaseFeature<State : Any, Wish : Any, News : Any, Effect : (State) -> 
     }
 
     override fun accept(wish: Wish) {
-        wishToAction(wish, state)?.let { actions.accept(it) }
+        wishToAction(wish, state)?.let { actions.onNext(it) }
     }
 
     private fun Flowable<Action>.executeBootstrapper(bootstrapperAction: Action?): Flowable<Action> {
@@ -108,7 +108,7 @@ open class BaseFeature<State : Any, Wish : Any, News : Any, Effect : (State) -> 
         return this.doOnNext { (state, action, effect) ->
             val newAction = postProcessor(action, effect, state)
             if (newAction != null) {
-                actions.accept(newAction)
+                actions.onNext(newAction)
             }
         }
     }
@@ -117,7 +117,7 @@ open class BaseFeature<State : Any, Wish : Any, News : Any, Effect : (State) -> 
         return this.doOnNext { (state, action, effect) ->
             val news = newsPublisher(action, effect, state)
             if (news != null) {
-                newsRelay.accept(news)
+                newsRelay.onNext(news)
             }
         }
     }
