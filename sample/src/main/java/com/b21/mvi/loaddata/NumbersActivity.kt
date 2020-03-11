@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.b21.mvi.R
 import com.jakewharton.rxrelay2.PublishRelay
 import com.jakewharton.rxrelay2.Relay
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 
 class NumbersActivity : AppCompatActivity(), NumbersView {
 

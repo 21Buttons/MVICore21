@@ -2,7 +2,7 @@ package com.b21.mvi.sum
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class CounterPresenter(
     private val view: CounterView,

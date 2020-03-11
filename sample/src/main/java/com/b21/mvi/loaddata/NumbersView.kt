@@ -1,6 +1,7 @@
 package com.b21.mvi.loaddata
 
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
+
 
 interface NumbersView {
     val userIntents: Observable<UserIntent>

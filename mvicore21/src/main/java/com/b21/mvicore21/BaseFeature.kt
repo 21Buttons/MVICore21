@@ -1,9 +1,9 @@
 package com.b21.mvicore21
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.Subject
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.Subject
 import org.reactivestreams.Subscriber
 
 typealias WishToAction<Wish, State, Action> = (Wish, State) -> Action?
