@@ -1,8 +1,8 @@
 package com.b21.mvi.loaddata
 
 import com.b21.mvicore21.Actor
-import io.reactivex.Flowable
-import io.reactivex.Scheduler
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Scheduler
 
 class NumbersActor(
     private val useCase: NumbersUseCase,

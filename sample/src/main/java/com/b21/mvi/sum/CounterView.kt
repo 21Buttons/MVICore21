@@ -1,6 +1,7 @@
 package com.b21.mvi.sum
 
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
+
 
 interface CounterView {
     val userIntents: Observable<UserIntent>

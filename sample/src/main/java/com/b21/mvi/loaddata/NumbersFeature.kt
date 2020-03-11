@@ -1,7 +1,7 @@
 package com.b21.mvi.loaddata
 
 import com.b21.mvicore21.BaseFeature
-import io.reactivex.Scheduler
+import io.reactivex.rxjava3.core.Scheduler
 
 open class NumbersFeature(
     useCase: NumbersUseCase,

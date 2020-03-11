@@ -1,8 +1,8 @@
 package com.b21.mvi.sum
 
 import com.b21.mvicore21.Actor
-import io.reactivex.Flowable
-import io.reactivex.Scheduler
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Scheduler
 
 class CounterActor(
     private val main: Scheduler

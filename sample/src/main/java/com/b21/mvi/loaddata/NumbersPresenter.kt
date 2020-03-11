@@ -2,7 +2,7 @@ package com.b21.mvi.loaddata
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class NumbersPresenter(
     private val view: NumbersView,

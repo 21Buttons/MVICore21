@@ -1,7 +1,7 @@
 package com.b21.mvi.sum
 
 import com.b21.mvicore21.BaseFeature
-import io.reactivex.Scheduler
+import io.reactivex.rxjava3.core.Scheduler
 
 open class CounterFeature(
     bootstrapperAction: CounterAction? = null,
